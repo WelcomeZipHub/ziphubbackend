@@ -28,6 +28,12 @@ public class MemberRepository {
                 .getSingleResult();
     }
 
+    public Member findOneByPhone(String phone) {
+        return em.createQuery("select m from Member m where m.phone = :phone", Member.class)
+                .setParameter("phone", phone)
+                .getSingleResult();
+    }
+
     public Member findOneByUsername(String username) {
         return em.createQuery("select m from Member m where m.username = :username", Member.class)
                 .setParameter("username", username)
@@ -49,5 +55,4 @@ public class MemberRepository {
                 .setParameter("lastname", lastname)
                 .getResultList();
     }
-
 }

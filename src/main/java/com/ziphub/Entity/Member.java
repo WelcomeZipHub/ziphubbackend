@@ -17,10 +17,12 @@ public class Member {
     private Long id;
 
     private String email;
+    private String phone;
     private String username;
     private String password;
     private String firstname;
     private String lastname;
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<House> houses = new ArrayList<>();
