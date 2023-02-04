@@ -1,5 +1,6 @@
 package com.ziphub.Entity;
 
+import com.ziphub.Entity.Embedded.Address;
 import lombok.Getter;
 import lombok.Setter;
 
