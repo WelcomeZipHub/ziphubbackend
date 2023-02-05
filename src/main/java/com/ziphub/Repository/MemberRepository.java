@@ -22,22 +22,22 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
-    public Member findOneByEmail(String email) {
+    public List<Member> findOneByEmail(String email) {
         return em.createQuery("select m from Member m where m.email = :email", Member.class)
                 .setParameter("email", email)
-                .getSingleResult();
+                .getResultList();
     }
 
-    public Member findOneByPhone(String phone) {
+    public List<Member> findOneByPhone(String phone) {
         return em.createQuery("select m from Member m where m.phone = :phone", Member.class)
                 .setParameter("phone", phone)
-                .getSingleResult();
+                .getResultList();
     }
 
-    public Member findOneByUsername(String username) {
+    public List<Member> findOneByUsername(String username) {
         return em.createQuery("select m from Member m where m.username = :username", Member.class)
                 .setParameter("username", username)
-                .getSingleResult();
+                .getResultList();
     }
 
     public List<Member> findAll() {

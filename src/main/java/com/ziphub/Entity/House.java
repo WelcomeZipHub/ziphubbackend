@@ -1,6 +1,7 @@
 package com.ziphub.Entity;
 
 import com.ziphub.Entity.Embedded.Address;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Data
 public class House {
 
     @Id
