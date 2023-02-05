@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,22 +24,31 @@ public class MemberRepository {
         return em.find(Member.class, id);
     }
 
-    public List<Member> findOneByEmail(String email) {
+    public Optional<Member> findOneByEmail(String email) {
         return em.createQuery("select m from Member m where m.email = :email", Member.class)
                 .setParameter("email", email)
-                .getResultList();
+                .getResultList()
+                .stream()
+                .findFirst();
+
     }
 
-    public List<Member> findOneByPhone(String phone) {
+    public Optional<Member> findOneByPhone(String phone) {
         return em.createQuery("select m from Member m where m.phone = :phone", Member.class)
                 .setParameter("phone", phone)
-                .getResultList();
+                .getResultList()
+                .stream()
+                .findFirst();
+
     }
 
-    public List<Member> findOneByUsername(String username) {
+    public Optional<Member> findOneByUsername(String username) {
         return em.createQuery("select m from Member m where m.username = :username", Member.class)
                 .setParameter("username", username)
-                .getResultList();
+                .getResultList()
+                .stream()
+                .findFirst();
+
     }
 
     public List<Member> findAll() {

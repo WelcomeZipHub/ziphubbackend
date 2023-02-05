@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -14,6 +15,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final LoginService loginService;
 
     @Transactional
     public Long signUp(Member member) {
@@ -35,7 +37,7 @@ public class MemberService {
     }
 
     private void validateMember(Member member) {
-        List<Member> findEmail = memberRepository.findOneByEmail(member.getEmail());
-        if(!findEmail.isEmpty()) throw new IllegalStateException("The email is already in used");
+        Optional<Member> user = memberRepository.findOneByEmail(member.getEmail());
+        user.orElseThrow(() -> new IllegalStateException("The email is already in used"));
     }
 }
