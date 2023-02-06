@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,7 +22,6 @@ public class Member {
     private String password;
     private String firstname;
     private String lastname;
-
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<House> houses = new ArrayList<>();

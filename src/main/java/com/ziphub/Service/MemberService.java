@@ -1,6 +1,8 @@
 package com.ziphub.Service;
 
 import com.ziphub.Entity.Member;
+import com.ziphub.Form.LoginForm;
+import com.ziphub.Form.RegisterForm;
 import com.ziphub.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,17 +17,18 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final LoginService loginService;
 
     @Transactional
-    public Long signUp(Member member) {
-        validateMember(member);
-        memberRepository.save(member);
-        return member.getId();
+    public Long signUp(RegisterForm form) {
+        validateMember(form);
+        Long memberId = memberRepository.save(form);
+        return memberId;
     }
 
-    public Long signIn(Member member) {
-        return 0L;
+    public Member signIn(LoginForm form) {
+        return memberRepository.findOneByUsername(form.getUsername())
+                .filter(m -> m.getPassword().equals(form.getPassword()))
+                .orElse(null);
     }
 
     public Member findOne(Long memberId) {
@@ -36,8 +39,8 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    private void validateMember(Member member) {
-        Optional<Member> user = memberRepository.findOneByEmail(member.getEmail());
-        user.orElseThrow(() -> new IllegalStateException("The email is already in used"));
+    private void validateMember(RegisterForm form) {
+        Optional<Member> user = memberRepository.findOneByEmail(form.getEmail());
+        if(user.isPresent()) throw new IllegalStateException("The email is already in used");
     }
 }
