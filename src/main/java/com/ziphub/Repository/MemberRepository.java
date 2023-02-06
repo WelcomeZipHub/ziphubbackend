@@ -15,14 +15,7 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public Long save(RegisterForm form) {
-        Member member = new Member();
-        member.setUsername(form.getUsername());
-        member.setPassword(form.getPassword());
-        member.setEmail(form.getEmail());
-        member.setPhone(form.getPhone());
-        member.setFirstname(form.getFirstname());
-        member.setLastname(form.getLastname());
+    public Long save(Member member) {
         em.persist(member);
         return member.getId();
     }
@@ -60,17 +53,5 @@ public class MemberRepository {
 
     public List<Member> findAll() {
         return em.createQuery("select m from Member m", Member.class).getResultList();
-    }
-
-    public List<Member> findAllByFirstName(String firstname) {
-        return em.createQuery("select m from Member m where m.firstname = :firstname", Member.class)
-                .setParameter("firstname", firstname)
-                .getResultList();
-    }
-
-    public List<Member> findAllByLastName(String lastname) {
-        return em.createQuery("select m from Member m where m.lastname = :lastname", Member.class)
-                .setParameter("lastname", lastname)
-                .getResultList();
     }
 }

@@ -22,12 +22,4 @@ public class RegisterForm {
     @NotEmpty(message = "Please provide password")
     @Size(min = 4, max = 20)
     private String password;
-
-    @NotEmpty(message = "Please provide firstname")
-    @Size(min = 3, max = 20)
-    private String firstname;
-
-    @NotEmpty(message = "Please provide lastname")
-    @Size(min = 3, max = 20)
-    private String lastname;
 }

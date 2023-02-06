@@ -19,7 +19,7 @@ public class AuthenticationConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers("/api/member").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/house").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/house", "/api/favorite").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

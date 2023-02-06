@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,15 +19,22 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long signUp(RegisterForm form) {
-        validateMember(form);
-        Long memberId = memberRepository.save(form);
-        return memberId;
+    public Long signUp(String username, String password, String email, String phone) {
+        validateMember(username);
+        Member member = Member.builder()
+                .username(username)
+                .password(password)
+                .email(email)
+                .phone(phone)
+                .createdDate(new Date(System.currentTimeMillis()))
+                .build();
+
+        return memberRepository.save(member);
     }
 
-    public Member signIn(LoginForm form) {
-        return memberRepository.findOneByUsername(form.getUsername())
-                .filter(m -> m.getPassword().equals(form.getPassword()))
+    public Member signIn(String username, String password) {
+        return memberRepository.findOneByUsername(username)
+                .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
     }
 
@@ -39,8 +46,8 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    private void validateMember(RegisterForm form) {
-        Optional<Member> user = memberRepository.findOneByEmail(form.getEmail());
-        if(user.isPresent()) throw new IllegalStateException("The email is already in used");
+    private void validateMember(String username) {
+        memberRepository.findOneByUsername(username)
+        .ifPresent(user -> { throw new IllegalStateException("Your username is already taken"); });
     }
 }
