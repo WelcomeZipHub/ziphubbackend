@@ -17,3 +17,8 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+jwt:
+  token:
+    secretKey: ziphub
+    expiredMs: 86400000

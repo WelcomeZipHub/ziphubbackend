@@ -1,7 +1,6 @@
 package com.ziphub.Repository;
 
 import com.ziphub.Entity.Member;
-import com.ziphub.Form.RegisterForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +14,9 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public Long save(Member member) {
+    public Member save(Member member) {
         em.persist(member);
-        return member.getId();
+        return member;
     }
 
     public Member findOne(Long id) {

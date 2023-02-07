@@ -16,26 +16,15 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
+
     @Autowired
     MemberService memberService;
     @Autowired
     MemberRepository memberRepository;
 
     @Test
-    public void signUp() throws Exception {
-
-    }
+    public void signUp() throws Exception {}
 
     @Test(expected = IllegalStateException.class)
-    public void exceptionDuplicate() throws Exception {
-//        Member m1 = new Member();
-//        Member m2 = new Member();
-//        m1.setEmail("aaa@aaa.com");
-//        m2.setEmail("aaa@aaa.com");
-//
-//        memberService.signUp(m1);
-//        memberService.signUp(m2);
-
-        fail("The test must throw an exception");
-    }
+    public void exceptionDuplicate() throws Exception {}
 }

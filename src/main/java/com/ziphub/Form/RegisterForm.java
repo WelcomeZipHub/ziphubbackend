@@ -1,12 +1,22 @@
 package com.ziphub.Form;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@AllArgsConstructor
 public class RegisterForm {
+    @NotEmpty(message = "Please provide username")
+    @Size(min = 4, max = 20)
+    private String username;
+
+    @NotEmpty(message = "Please provide password")
+    @Size(min = 4, max = 20)
+    private String password;
+
     @NotEmpty(message = "Please provide email")
     @Size(min = 4, max = 30)
     private String email;
@@ -15,11 +25,4 @@ public class RegisterForm {
     @Size(min = 13, max = 13)
     private String phone;
 
-    @NotEmpty(message = "Please provide username")
-    @Size(min = 4, max = 20)
-    private String username;
-
-    @NotEmpty(message = "Please provide password")
-    @Size(min = 4, max = 20)
-    private String password;
 }
