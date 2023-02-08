@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "corded-nature-377220",
+  "private_key_id": "020a590843df23955094485267ac4d11c32ecb53",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDNtZ2MU9bIu3sK\nzFgirVkaoZdWiq36MQOilDd/KZRLVkUPTDaG59uIBGYBzbYefaS38ZVrznV/4Df9\nKfFdOno9TX/OnZKIcncRo16S/ea6cs5hDDr8jWSrWo+/8EsdI7ayNzTNFMAkwPtl\naa/P+/LA7ZEtWRW0vNps3nOLuPAcMv0n+Ant+OQ2MKv6LfhvnLya5K8iq/K8G2zQ\nq1v6WbOrb7EDF+jnLoLWLZ21NLDTYq9avJgc4KxImOj+jBfkscvt4vbiSQg8kMDe\nh1FaYmzyHge7jeUsspNHQpUdZJlfWwoyfszjLvQXrsoY7Mm9ILtFIcd3NIIgmz1f\nN4Fv8QV3AgMBAAECggEAPk14Rw0Ja0hlDrMvKmmIKCmy1VIxOSppKG9tk4T7Vgnt\n5qE1joxgkASNBJTSSM/S+Kchk0I3kiBNtM5kPNE+PpzfTaupusu4Rk5NkYV2wReO\nbBQxNVZ5m/BUw1Q627t6VOWlh0t2mmsceO2Wgw6Syl3pb2ugyFm+aeTB6Bp+FnvL\n0nSsOT6PLRvGmftnrPzna5GwijJF6rKL5VMkK86TkBolAHBulSeg1AVQbhaa7pbm\naO/OwCAFYU0eK5WyzyJ9DAXgqQo/ikrVkAQvvtIvt4S49NPWtV7HWmsPoOcpo7RD\nkZ4BCTKotQmDQi8mAG7RfbNkyJnDnMhyWv4h4fysgQKBgQDvL4bl9ytqfcddMCsm\n6IrcoTLnt5uh1ZsFaHMmii6FKGRGvh2Rbhg1u6KdDtCbLkJ5oVrE2vHrJ/GJhAa5\nGcz78/gvUgw3r3HxciWP0PGw7hpykWyXWtfPEGtSnLp0B56fGQMiNZqS9vcvsTZ5\noVkozQnq8COq55R0RT8FtzqcNwKBgQDcK6Nd86VE2Gxa9FcRi4z2Ugbzq6tKF0lP\nxJPCxKzv+gbSguscD2PxkAlGYYFwT6Gb9rggJw61JEjQ9BsxqrK3dvH6+TKUXXj9\nlcKHMGXUR4n656WSkq1LO/tIEyFCT9thpbV23d8OcleDjg0BtfUGAo+YK+0FntZu\nd0bgCSjAwQKBgAO0UbuIC3UXw5mu4Ew298eY+4fZMSDdhQwdZQMoyrWnPX5W/XA+\nK0PRxx/1lceBfOgTVquL1IlW0gfWMqB1RNZ2Hdblx2ipX/NkWC6VBtk9ps01cWAa\nuRLs5yydXsnjQFKoeYLzH5S9HHDxpq1VkWLvYgLweyzvbz4pwGMfRlobAoGBANLH\nACZQu9a17r4Aj15fn/qsurUKkvhiZK/1/JOIoBs53NApv5VkcoTvJMH5VObFhWz/\nfHRjj+QAsalBGMuqpF+Zgr2HVlHNTqhOeCXeQo5AUqsem1dADqEo8j6k+cE3HEpW\nTuxWKlX1RyzNkEwj+0feqcO/wbEQyC6HCBYxDo/BAoGBAJfFZZhPvW/8BDSnta9W\nnmop+Ktkk9/nD9AiGWUT3QIL5OHyVDMj30dqUaYZICUCSXIWJVouMLycgWAW3ESi\nkoSAQRnxOjebr80ELor/GhIERvctK2bTl2JPHcqlhIclLqlIOFzyXUgHnxuh0pNw\nNHtIm8neFWYjtD4z8LO8+OvV\n-----END PRIVATE KEY-----\n",
+  "client_email": "ziphub@corded-nature-377220.iam.gserviceaccount.com",
+  "client_id": "111927352800066691625",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ziphub%40corded-nature-377220.iam.gserviceaccount.com"
+}

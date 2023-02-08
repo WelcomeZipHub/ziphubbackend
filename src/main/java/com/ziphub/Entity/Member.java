@@ -1,6 +1,7 @@
 package com.ziphub.Entity;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,9 +15,11 @@ import java.util.List;
 @NoArgsConstructor
 @Getter @Setter
 public class Member {
+
     @Id
-    @GeneratedValue
     @Column(name = "member_id")
+    @GeneratedValue(generator = "uuid")
+
     private Long id;
 
     private String email;
@@ -31,4 +34,5 @@ public class Member {
     private List<Favorite> favorites = new ArrayList<>();
 
     private LocalDateTime createdDate;
+
 }

@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
-public class RegisterForm {
+public class MemberRegisterForm {
     @NotEmpty(message = "Please provide username")
     @Size(min = 4, max = 20)
     private String username;

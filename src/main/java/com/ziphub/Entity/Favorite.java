@@ -2,6 +2,7 @@ package com.ziphub.Entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +11,8 @@ import java.time.LocalDateTime;
 @Getter
 public class Favorite {
     @Id
-    @GeneratedValue
+    @Column(name = "favorite_id")
+    @GeneratedValue(generator = "uuid")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

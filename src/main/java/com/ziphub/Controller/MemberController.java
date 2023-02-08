@@ -1,9 +1,8 @@
 package com.ziphub.Controller;
 
-import com.ziphub.Entity.Member;
 import com.ziphub.Form.LoginForm;
 import com.ziphub.Form.MemberForm;
-import com.ziphub.Form.RegisterForm;
+import com.ziphub.Form.MemberRegisterForm;
 import com.ziphub.Form.TokenForm;
 import com.ziphub.Service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -25,7 +23,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public ResponseEntity<MemberForm> register(@Valid @RequestBody RegisterForm form, BindingResult result) {
+    public ResponseEntity<MemberForm> register(@Valid @RequestBody MemberRegisterForm form, BindingResult result) {
         MemberForm newMember = memberService.signUp(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone());
         return ResponseEntity.ok().body(newMember);
     }

@@ -1,25 +1,32 @@
 package com.ziphub.Entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.ziphub.Utils.UploadFile;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Entity
+@NoArgsConstructor
 @Getter
+@Setter
 public class Photo {
+
     @Id
     @GeneratedValue
-    @Column(name = "photo_id")
     private Long id;
-
-    @Lob
-    private byte[] data;
+    private String uploadFileName;
+    private String storeFileName;
+    private String storageURL;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")
     private House house;
 
-    private LocalDateTime createdDate;
+    public Photo(String uploadFileName, String storeFileName, String storageURL) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
+        this.storageURL = storageURL;
+    }
 }

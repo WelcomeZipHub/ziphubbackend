@@ -26,7 +26,7 @@ public class MemberService {
     private final BCryptPasswordEncoder bcryptEncoder;
 
     @Value("${jwt.token.secretKey}")
-    private String secretkey;
+    private String secretKey;
     @Value(("${jwt.token.expiredMs}"))
     private Long expiredTimeMs;
 
@@ -62,9 +62,9 @@ public class MemberService {
             throw new MemberException(ErrorCode.INVALID_PASSWORD, "");
         }
 
-        String token = JwtUtil.createJwt(selectedMember.getUsername(), secretkey, expiredTimeMs);
+        String token = JwtUtil.createJwt(selectedMember.getUsername(), secretKey, expiredTimeMs);
         TokenForm tokenForm = TokenForm.builder()
-                .recentLoginTime(LocalDateTime.now())
+                .accessTime(LocalDateTime.now())
                 .accessToken(token)
                 .tokenType("Bearer")
                 .build();

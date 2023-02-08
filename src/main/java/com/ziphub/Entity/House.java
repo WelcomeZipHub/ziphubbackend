@@ -1,22 +1,25 @@
 package com.ziphub.Entity;
 
 import com.ziphub.Entity.Embedded.Address;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.ziphub.Utils.UploadFile;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
 @Entity
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
 public class House {
 
     @Id
     @Column(name = "house_id")
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid")
     private Long id;
 
     @Embedded
@@ -25,10 +28,10 @@ public class House {
     private int price;
     private String description;
 
-    @OneToMany(mappedBy = "house")
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "house")
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private List<Favorite> favorites = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,4 +39,14 @@ public class House {
     private Member member;
 
     private LocalDateTime createdDate;
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getHouses().add(this);
+    }
+
+    public void addPhotos(Photo photo) {
+        photos.add(photo);
+        photo.setHouse(this);
+    }
 }

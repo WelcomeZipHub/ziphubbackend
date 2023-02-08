@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class TokenForm {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime recentLoginTime;
+    private LocalDateTime accessTime;
     private String accessToken;
     private String tokenType;
 }

@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/api/member").permitAll()
+                .antMatchers("/api/attachment", "/api/member").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/house/**", "/api/favorite/**").authenticated()
                 .and()
                 .sessionManagement()

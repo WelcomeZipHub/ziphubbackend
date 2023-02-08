@@ -12,4 +12,10 @@ public class ExceptionGlobalManager {
         return ResponseEntity.status(e.getErrorCode().getHttpStatus())
                 .body(e.getErrorCode().name());
     }
+
+    @ExceptionHandler(PhotoException.class)
+    public ResponseEntity<?> photoExceptionHandler(PhotoException e) {
+        return ResponseEntity.status(e.getErrorCode().getHttpStatus())
+                .body(e.getErrorCode().name());
+    }
 }

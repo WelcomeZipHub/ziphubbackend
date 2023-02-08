@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziphub.Exception.ErrorCode;
 import com.ziphub.Exception.MemberException;
 import com.ziphub.Form.LoginForm;
-import com.ziphub.Form.RegisterForm;
+import com.ziphub.Form.MemberRegisterForm;
 import com.ziphub.Form.TokenForm;
 import com.ziphub.Service.MemberService;
 import org.junit.Test;
@@ -20,6 +20,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -50,12 +52,12 @@ public class MemberControllerTest {
         String email = "joon@gmail.com";
         String phone = "909-703-1010";
 
-        RegisterForm registerForm = new RegisterForm(username, password, email, phone);
+        MemberRegisterForm memberRegisterForm = new MemberRegisterForm(username, password, email, phone);
 
         mockMvc.perform(post("/api/member/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(registerForm)))
+                        .content(objectMapper.writeValueAsBytes(memberRegisterForm)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -69,14 +71,14 @@ public class MemberControllerTest {
         String email = "joon@gmail.com";
         String phone = "909-703-1010";
 
-        RegisterForm registerForm = new RegisterForm(username, password, email, phone);
+        MemberRegisterForm memberRegisterForm = new MemberRegisterForm(username, password, email, phone);
 
         when(memberService.signUp(anyString(), anyString(), anyString(), anyString())).thenThrow(new MemberException(ErrorCode.USERNAME_DUPLICATED, "Member already existed"));
 
         mockMvc.perform(post("/api/member/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(registerForm)))
+                        .content(objectMapper.writeValueAsString(memberRegisterForm)))
                 .andExpect(status().isConflict())
                 .andDo(print());
     }
@@ -89,7 +91,7 @@ public class MemberControllerTest {
         String password = "123456";
 
         LoginForm loginForm = new LoginForm(username, password);
-        TokenForm tokenForm = new TokenForm("ghghgngngkgk", "joon@gmail.com", "token", "Bearer");
+        TokenForm tokenForm = new TokenForm(LocalDateTime.now(),  "token", "Bearer");
 
         when(memberService.signIn(anyString(), anyString())).thenReturn(tokenForm);
 
