@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -29,7 +30,7 @@ public class MemberController {
         return ResponseEntity.ok().body(newMember);
     }
     @PostMapping("/login")
-    public ResponseEntity<TokenForm> login(@Valid @RequestBody LoginForm form, BindingResult result) {
+    public ResponseEntity<TokenForm> login(@Valid @RequestBody LoginForm form, HttpServletResponse response, BindingResult result) {
         TokenForm tokenForm = memberService.signIn(form.getUsername(), form.getPassword());
         return ResponseEntity.ok().body(tokenForm);
     }

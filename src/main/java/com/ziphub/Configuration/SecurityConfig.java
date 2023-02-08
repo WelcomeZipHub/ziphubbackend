@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityGlobalConfig {
+public class SecurityConfig {
 
     private final MemberService memberService;
     @Value("${jwt.token.secretKey}")
@@ -29,7 +29,7 @@ public class SecurityGlobalConfig {
                 .cors().and()
                 .authorizeRequests()
                 .antMatchers("/api/member").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/house/**", "/api/favorite/**").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/house/*", "/api/favorite/*").authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
