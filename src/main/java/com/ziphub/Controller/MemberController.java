@@ -30,7 +30,7 @@ public class MemberController {
         return ResponseEntity.ok().body(newMember);
     }
     @PostMapping("/login")
-    public ResponseEntity<TokenForm> login(@Valid @RequestBody LoginForm form, HttpServletResponse response, BindingResult result) {
+    public ResponseEntity<TokenForm> login(@Valid @RequestBody LoginForm form,  BindingResult result) {
         TokenForm tokenForm = memberService.signIn(form.getUsername(), form.getPassword());
         return ResponseEntity.ok().body(tokenForm);
     }

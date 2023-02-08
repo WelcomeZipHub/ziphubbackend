@@ -30,5 +30,5 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Favorite> favorites = new ArrayList<>();
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 }

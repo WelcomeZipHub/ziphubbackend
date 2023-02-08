@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class MemberService {
                 .password(bcryptEncoder.encode(password))
                 .email(email)
                 .phone(phone)
-                .createdDate(new Date(System.currentTimeMillis()))
+                .createdDate(LocalDateTime.now())
                 .build();
 
         Member validatedMember = memberRepository.save(member);
@@ -63,8 +64,7 @@ public class MemberService {
 
         String token = JwtUtil.createJwt(selectedMember.getUsername(), secretkey, expiredTimeMs);
         TokenForm tokenForm = TokenForm.builder()
-                .username(selectedMember.getUsername())
-                .email(selectedMember.getEmail())
+                .recentLoginTime(LocalDateTime.now())
                 .accessToken(token)
                 .tokenType("Bearer")
                 .build();
