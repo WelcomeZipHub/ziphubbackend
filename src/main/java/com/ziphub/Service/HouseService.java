@@ -10,10 +10,13 @@ import com.ziphub.Repository.HouseRepository;
 
 import com.ziphub.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.channels.MulticastChannel;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +24,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class HouseService {
 
     private final MemberRepository memberRepository;
@@ -28,8 +32,9 @@ public class HouseService {
     private final PhotoService photoService;
 
     @Transactional
-    public House addHouse(HouseForm form) throws IOException {
-        List<Photo> photos = photoService.savePhotos(form.getImageFiles());
+    public Long addHouse(HouseForm form) throws IOException {
+        List<Photo> photos = photoService.savePhotos(form.getImages());
+
         Member member = memberRepository.findOne(form.getMemberId());
         Address address = new Address(
                 form.getCity(),
@@ -41,14 +46,16 @@ public class HouseService {
                 form.getLatitude()
         );
 
-        House newHouse = House.builder()
-                .member(member)
-                .price(form.getPrice())
-                .description(form.getDescription())
-                .address(address)
-                .photos(photos)
-                .createdDate(LocalDateTime.now())
-                .build();
+        House newHouse = new House();
+        newHouse.setMember(member);
+        newHouse.setAddress(address);
+        newHouse.setDescription(form.getDescription());
+        newHouse.setPrice(form.getPrice());
+        newHouse.setCreatedDate(LocalDateTime.now());
+
+        for (Photo p : photos) {
+            newHouse.addPhoto(p);
+        }
 
         return houseRepository.save(newHouse);
     }

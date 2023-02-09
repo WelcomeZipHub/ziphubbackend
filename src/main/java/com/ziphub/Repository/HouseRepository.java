@@ -13,8 +13,8 @@ public class HouseRepository {
 
     private final EntityManager em;
 
-    public House save(House newHouse) {
+    public Long save(House newHouse) {
         em.persist(newHouse);
-        return newHouse;
+        return newHouse.getId();
     }
 }

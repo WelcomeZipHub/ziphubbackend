@@ -45,7 +45,7 @@ public class House {
         member.getHouses().add(this);
     }
 
-    public void addPhotos(Photo photo) {
+    public void addPhoto(Photo photo) {
         photos.add(photo);
         photo.setHouse(this);
     }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -18,15 +19,9 @@ public class Photo {
     private Long id;
     private String uploadFileName;
     private String storeFileName;
-    private String storageURL;
+    private String storage_url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "house_id")
     private House house;
-
-    public Photo(String uploadFileName, String storeFileName, String storageURL) {
-        this.uploadFileName = uploadFileName;
-        this.storeFileName = storeFileName;
-        this.storageURL = storageURL;
-    }
 }

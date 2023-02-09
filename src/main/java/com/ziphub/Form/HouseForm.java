@@ -3,20 +3,22 @@ package com.ziphub.Form;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class HouseForm {
 
     private Long memberId;
     private int price;
+    private List<MultipartFile> images;
     private String description;
-    private List<MultipartFile> imageFiles;
-
     private String city;
     private String street;
     private String suite;
