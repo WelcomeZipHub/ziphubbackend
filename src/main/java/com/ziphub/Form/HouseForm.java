@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.util.List;
 
 @Getter @Setter
@@ -17,7 +16,6 @@ public class HouseForm {
 
     private Long memberId;
     private int price;
-    private List<MultipartFile> images;
     private String description;
     private String city;
     private String street;
@@ -26,5 +24,6 @@ public class HouseForm {
     private String zipcode;
     private String longitude;
     private String latitude;
+    List<MultipartFile> photos;
 
 }

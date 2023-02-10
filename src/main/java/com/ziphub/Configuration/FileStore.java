@@ -1,6 +1,4 @@
 package com.ziphub.Configuration;
-
-
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -8,29 +6,19 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.*;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import com.ziphub.Entity.Photo;
-import com.ziphub.Exception.ErrorCode;
-import com.ziphub.Exception.PhotoException;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.utility.RandomString;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
+
 
 @Configuration
 @Slf4j
@@ -58,13 +46,12 @@ public class FileStore {
                 .build();
     }
 
-    public Photo storeFile(MultipartFile file) {
+    public Photo storeFile(MultipartFile file, String uniqueId) {
         if(file.isEmpty()) {
             throw new IllegalStateException("Cannot upload empty file [" + file.getSize() + "]");
         }
 
         String storeFileName = createStoreFileName(file.getOriginalFilename());
-        log.info("storeFileName: {}, getOriginalFileName: {}", storeFileName, file.getOriginalFilename());
         if(!checkFileExtension(storeFileName)) throw new IllegalStateException("The file is not a correct extension");
 
         // MetaData
@@ -74,21 +61,18 @@ public class FileStore {
 
         // AWS S3
         AmazonS3 s3Client = s3();
-        String path = String.format("%s/%s", bucketName, storeFileName);
-        String fileName = String.format("%s-%s", file.getName(), storeFileName);
-
+        String path = String.format("%s/%s", bucketName, uniqueId);
 
         try {
-            saveImageInAWS(s3Client, path, fileName, file.getInputStream(), Optional.of(metadata));
+            saveImageInAWS(s3Client, path, storeFileName, file.getInputStream(), Optional.of(metadata));
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
 
-        String storageURL = "";
         Photo newPhoto = new Photo();
         newPhoto.setStoreFileName(storeFileName);
         newPhoto.setUploadFileName(file.getOriginalFilename());
-        newPhoto.setStorage_url(storageURL);
+        newPhoto.setStorage_url(path);
 
         return newPhoto;
     }
@@ -131,5 +115,16 @@ public class FileStore {
             }
         }
         return false;
+    }
+
+    public byte[] download(String path, String storeFileName) {
+        AmazonS3 s3Client = s3();
+
+        try {
+            S3Object object = s3Client.getObject(path, storeFileName);
+            return IOUtils.toByteArray(object.getObjectContent());
+        } catch (AmazonServiceException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

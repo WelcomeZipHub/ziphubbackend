@@ -1,6 +1,7 @@
 package com.ziphub.Service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziphub.Entity.Embedded.Address;
 import com.ziphub.Entity.House;
 import com.ziphub.Entity.Member;
@@ -32,9 +33,7 @@ public class HouseService {
     private final PhotoService photoService;
 
     @Transactional
-    public Long addHouse(HouseForm form) throws IOException {
-        List<Photo> photos = photoService.savePhotos(form.getImages());
-
+    public Long addHouse(HouseForm form) {
         Member member = memberRepository.findOne(form.getMemberId());
         Address address = new Address(
                 form.getCity(),
@@ -53,10 +52,26 @@ public class HouseService {
         newHouse.setPrice(form.getPrice());
         newHouse.setCreatedDate(LocalDateTime.now());
 
+        Long houseId = houseRepository.save(newHouse);
+
+        String uniqueId = member.getUsername() + "-h" + houseId;
+        List<Photo> photos = photoService.savePhotos(form.getPhotos(), uniqueId);
         for (Photo p : photos) {
             newHouse.addPhoto(p);
         }
 
-        return houseRepository.save(newHouse);
+        return houseId;
+    }
+
+    public HouseForm getJson(String houseInfo, List<MultipartFile> files) {
+        HouseForm form = new HouseForm();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            form = objectMapper.readValue(houseInfo, HouseForm.class);
+        } catch (IOException e) {
+            log.info("Error on ObjectMapper (at HouseService) with --> {}", e);
+        }
+        form.setPhotos(files);
+        return form;
     }
 }
