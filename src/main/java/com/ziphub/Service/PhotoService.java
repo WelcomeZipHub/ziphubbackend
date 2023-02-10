@@ -21,7 +21,6 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
 public class PhotoService {
 
     private final FileStore fileStore;

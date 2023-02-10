@@ -24,9 +24,9 @@ public class JwtUtil {
                 .before(new Date());
     }
 
-    public static String createJwt(String username, String secretKey, Long expiredTime) {
+    public static String createJwt(String email, String secretKey, Long expiredTime) {
         Claims claims = Jwts.claims();
-        claims.put("username", username);
+        claims.put("email", email);
 
         return Jwts.builder()
                 .setClaims(claims)

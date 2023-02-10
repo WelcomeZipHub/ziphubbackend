@@ -28,7 +28,7 @@ public class HouseController {
     }
 
     @GetMapping("/photos")
-    public byte[] getHousePhotos(@RequestParam("houseId") String houseId, @RequestParam("username") String username) {
-        return photoService.downloadPhotos(houseId, username);
+    public byte[] getHousePhotos(@RequestParam("houseId") String houseId, @RequestParam("email") String email) {
+        return photoService.downloadPhotos(houseId, email);
     }
 }

@@ -1,5 +1,7 @@
 package com.ziphub.Entity;
 
+import com.ziphub.Form.MemberForm;
+import com.ziphub.Form.TokenForm;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -23,7 +25,6 @@ public class Member {
 
     private String email;
     private String phone;
-    private String username;
     private String password;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -33,5 +34,24 @@ public class Member {
     private List<Favorite> favorites = new ArrayList<>();
 
     private LocalDateTime createdDate;
+
+    public static MemberForm createMemberForm(Member validatedMember) {
+        MemberForm newMember = new MemberForm(
+                validatedMember.getId(),
+                validatedMember.getEmail(),
+                validatedMember.getPhone(),
+                validatedMember.getCreatedDate()
+        );
+        return newMember;
+    }
+
+    public static TokenForm createTokenForm(String token) {
+        TokenForm tokenForm = TokenForm.builder()
+                .accessTime(LocalDateTime.now())
+                .accessToken(token)
+                .tokenType("Bearer")
+                .build();
+        return tokenForm;
+    }
 
 }

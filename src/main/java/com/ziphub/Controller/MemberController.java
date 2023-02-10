@@ -24,12 +24,12 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<MemberForm> register(@Valid @RequestBody MemberRegisterForm form, BindingResult result) {
-        MemberForm newMember = memberService.signUp(form.getUsername(), form.getPassword(), form.getEmail(), form.getPhone());
+        MemberForm newMember = memberService.signUp(form.getEmail(), form.getPassword() , form.getPhone());
         return ResponseEntity.ok().body(newMember);
     }
     @PostMapping("/login")
     public ResponseEntity<TokenForm> login(@Valid @RequestBody LoginForm form,  BindingResult result) {
-        TokenForm tokenForm = memberService.signIn(form.getUsername(), form.getPassword());
+        TokenForm tokenForm = memberService.signIn(form.getEmail(), form.getPassword());
         return ResponseEntity.ok().body(tokenForm);
     }
 }

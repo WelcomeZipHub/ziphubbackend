@@ -9,9 +9,9 @@ import javax.validation.constraints.Size;
 @Getter
 @AllArgsConstructor
 public class LoginForm {
-    @NotEmpty(message = "Please provide username")
+    @NotEmpty(message = "Please provide email")
     @Size(min = 4, max = 20)
-    private String username;
+    private String email;
 
     @NotEmpty(message = "Please provide password")
     @Size(min = 4, max = 20)

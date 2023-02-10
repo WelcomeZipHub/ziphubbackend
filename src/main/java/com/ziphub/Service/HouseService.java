@@ -54,7 +54,7 @@ public class HouseService {
 
         Long houseId = houseRepository.save(newHouse);
 
-        String uniqueId = member.getUsername() + "-h" + houseId;
+        String uniqueId = member.getEmail() + "-h" + houseId;
         List<Photo> photos = photoService.savePhotos(form.getPhotos(), uniqueId);
         for (Photo p : photos) {
             newHouse.addPhoto(p);

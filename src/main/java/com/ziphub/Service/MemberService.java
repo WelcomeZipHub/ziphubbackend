@@ -31,45 +31,30 @@ public class MemberService {
     private Long expiredTimeMs;
 
     @Transactional
-    public MemberForm signUp(String username, String password, String email, String phone) {
-        validateMember(username);
+    public MemberForm signUp(String email, String password, String phone) {
+        validateMember(email);
 
         Member member = Member.builder()
-                .username(username)
-                .password(bcryptEncoder.encode(password))
                 .email(email)
+                .password(bcryptEncoder.encode(password))
                 .phone(phone)
                 .createdDate(LocalDateTime.now())
                 .build();
 
         Member validatedMember = memberRepository.save(member);
-
-        MemberForm newMember = new MemberForm(
-                validatedMember.getId(),
-                validatedMember.getUsername(),
-                validatedMember.getEmail(),
-                validatedMember.getPhone(),
-                validatedMember.getCreatedDate()
-        );
-
-        return newMember;
+        return Member.createMemberForm(validatedMember);
     }
 
-    public TokenForm signIn(String username, String password) {
-        Member selectedMember = memberRepository.findOneByUsername(username).orElseThrow(() -> new MemberException(ErrorCode.USERNAME_NOT_FOUND, ""));
+    public TokenForm signIn(String email, String password) {
+        Member selectedMember = memberRepository.findOneByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USERNAME_NOT_FOUND, ""));
 
         if (!bcryptEncoder.matches(password, selectedMember.getPassword())) {
             throw new MemberException(ErrorCode.INVALID_PASSWORD, "");
         }
 
-        String token = JwtUtil.createJwt(selectedMember.getUsername(), secretKey, expiredTimeMs);
-        TokenForm tokenForm = TokenForm.builder()
-                .accessTime(LocalDateTime.now())
-                .accessToken(token)
-                .tokenType("Bearer")
-                .build();
+        String token = JwtUtil.createJwt(selectedMember.getEmail(), secretKey, expiredTimeMs);
 
-        return tokenForm;
+        return Member.createTokenForm(token);
     }
 
     public Member findOne(Long memberId) {
@@ -80,8 +65,8 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    private void validateMember(String username) {
-        memberRepository.findOneByUsername(username)
+    private void validateMember(String email) {
+        memberRepository.findOneByEmail(email)
                 .ifPresent(user -> { throw new MemberException(ErrorCode.USERNAME_DUPLICATED, ""); });
     }
 }

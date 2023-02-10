@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MemberForm {
     private Long id;
-    private String username;
     private String email;
     private String phone;
 
