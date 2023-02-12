@@ -28,7 +28,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/api/house/**", "/api/member").permitAll()
+                .antMatchers("/api/house/**", "/api/member/**").permitAll()
+                //.anyRequest()
                 .antMatchers(HttpMethod.POST, "/api/favorite/**").authenticated()
                 .and()
                 .sessionManagement()
@@ -36,7 +37,6 @@ public class SecurityConfig {
                 .and()
                 .addFilterBefore(new JwtFilter(memberService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 }
 

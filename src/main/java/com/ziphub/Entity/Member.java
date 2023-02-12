@@ -1,14 +1,14 @@
 package com.ziphub.Entity;
-
 import com.ziphub.Form.MemberForm;
 import com.ziphub.Form.TokenForm;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 
 @Builder
@@ -53,5 +53,4 @@ public class Member {
                 .build();
         return tokenForm;
     }
-
 }

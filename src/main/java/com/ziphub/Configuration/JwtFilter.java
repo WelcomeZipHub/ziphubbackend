@@ -43,10 +43,10 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        String username = JwtUtil.getUsername(token, secretKey);
+        String userEmail = JwtUtil.getUsername(token, secretKey);
 
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                username,
+                userEmail,
                 null,
                 List.of(new SimpleGrantedAuthority("member"))
         );
