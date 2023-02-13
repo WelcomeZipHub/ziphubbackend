@@ -1,4 +1,4 @@
-package com.ziphub.Form;
+package com.ziphub.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @AllArgsConstructor
-public class LoginForm {
+public class LoginDto {
     @NotEmpty(message = "Please provide email")
     @Size(min = 4, max = 20)
     private String email;

@@ -1,15 +1,14 @@
-package com.ziphub.Form;
+package com.ziphub.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class MemberForm {
+public class MemberDto {
     private Long id;
     private String email;
     private String phone;

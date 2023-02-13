@@ -4,9 +4,9 @@ package com.ziphub.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziphub.Exception.ErrorCode;
 import com.ziphub.Exception.MemberException;
-import com.ziphub.Form.LoginForm;
-import com.ziphub.Form.MemberRegisterForm;
-import com.ziphub.Form.TokenForm;
+import com.ziphub.Dto.LoginDto;
+import com.ziphub.Dto.MemberRegisterDto;
+import com.ziphub.Dto.TokenDto;
 import com.ziphub.Service.MemberService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -52,12 +52,12 @@ public class MemberControllerTest {
         String email = "joon@gmail.com";
         String phone = "909-703-1010";
 
-        MemberRegisterForm memberRegisterForm = new MemberRegisterForm(username, password, email, phone);
+        MemberRegisterDto memberRegisterDto = new MemberRegisterDto(email, password,  phone);
 
         mockMvc.perform(post("/api/member/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(memberRegisterForm)))
+                        .content(objectMapper.writeValueAsBytes(memberRegisterDto)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -71,9 +71,9 @@ public class MemberControllerTest {
         String email = "joon@gmail.com";
         String phone = "909-703-1010";
 
-        MemberRegisterForm memberRegisterForm = new MemberRegisterForm(username, password, email, phone);
+        MemberRegisterDto memberRegisterForm = new MemberRegisterDto(email, password,  phone);
 
-        when(memberService.signUp(anyString(), anyString(), anyString(), anyString())).thenThrow(new MemberException(ErrorCode.USERNAME_DUPLICATED, "Member already existed"));
+        when(memberService.signUp(anyString(), anyString(), anyString())).thenThrow(new MemberException(ErrorCode.USERNAME_DUPLICATED, "Member already existed"));
 
         mockMvc.perform(post("/api/member/register")
                         .with(csrf())
@@ -90,15 +90,15 @@ public class MemberControllerTest {
         String username = "ghghgngngkgk";
         String password = "123456";
 
-        LoginForm loginForm = new LoginForm(username, password);
-        TokenForm tokenForm = new TokenForm(LocalDateTime.now(),  "token", "Bearer");
+        LoginDto loginDto = new LoginDto(username, password);
+        TokenDto tokenForm = new TokenDto(LocalDateTime.now(),  "token", "Bearer");
 
         when(memberService.signIn(anyString(), anyString())).thenReturn(tokenForm);
 
         mockMvc.perform(post("/api/member/login")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginForm)))
+                        .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -110,14 +110,14 @@ public class MemberControllerTest {
         String username = "whoareyou";
         String password = "123456";
 
-        LoginForm loginForm = new LoginForm(username, password);
+        LoginDto loginDto = new LoginDto(username, password);
 
         when(memberService.signIn(anyString(), anyString())).thenThrow(new MemberException(ErrorCode.USERNAME_NOT_FOUND, "username not found"));
 
         mockMvc.perform(post("/api/member/login")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginForm)))
+                        .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -129,14 +129,14 @@ public class MemberControllerTest {
         String username = "ghghgngngkgk";
         String password = "654321";
 
-        LoginForm loginForm = new LoginForm(username, password);
+        LoginDto loginDto = new LoginDto(username, password);
 
         when(memberService.signIn(anyString(), anyString())).thenThrow(new MemberException(ErrorCode.INVALID_PASSWORD, ""));
 
         mockMvc.perform(post("/api/member/login")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loginForm)))
+                        .content(objectMapper.writeValueAsString(loginDto)))
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
     }

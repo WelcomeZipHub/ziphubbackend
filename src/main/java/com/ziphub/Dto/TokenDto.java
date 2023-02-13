@@ -1,4 +1,4 @@
-package com.ziphub.Form;
+package com.ziphub.Dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 @AllArgsConstructor
-public class TokenForm {
+public class TokenDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime accessTime;

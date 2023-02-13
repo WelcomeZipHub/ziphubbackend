@@ -6,7 +6,7 @@ import com.ziphub.Entity.Embedded.Address;
 import com.ziphub.Entity.House;
 import com.ziphub.Entity.Member;
 import com.ziphub.Entity.Photo;
-import com.ziphub.Form.HouseForm;
+import com.ziphub.Dto.HousePhotoDto;
 import com.ziphub.Repository.HouseRepository;
 
 import com.ziphub.Repository.MemberRepository;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.channels.MulticastChannel;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class HouseService {
     private final PhotoService photoService;
 
     @Transactional
-    public Long addHouse(HouseForm form) {
+    public Long addHouse(HousePhotoDto form) {
         Member member = memberRepository.findOne(form.getMemberId());
         Address address = new Address(
                 form.getCity(),
@@ -51,6 +50,7 @@ public class HouseService {
         newHouse.setDescription(form.getDescription());
         newHouse.setPrice(form.getPrice());
         newHouse.setCreatedDate(LocalDateTime.now());
+        newHouse.setHide(form.isHide());
 
         Long houseId = houseRepository.save(newHouse);
 
@@ -63,11 +63,17 @@ public class HouseService {
         return houseId;
     }
 
-    public HouseForm getJson(String houseInfo, List<MultipartFile> files) {
-        HouseForm form = new HouseForm();
+    @Transactional
+    public void updateHouse(Long houseId) {
+        House house = houseRepository.findOne(houseId);
+        house.setHide(!house.isHide());
+    }
+
+    public HousePhotoDto getJson(String houseInfo, List<MultipartFile> files) {
+        HousePhotoDto form = new HousePhotoDto();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            form = objectMapper.readValue(houseInfo, HouseForm.class);
+            form = objectMapper.readValue(houseInfo, HousePhotoDto.class);
         } catch (IOException e) {
             log.info("Error on ObjectMapper (at HouseService) with --> {}", e);
         }

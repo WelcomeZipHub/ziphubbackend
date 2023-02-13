@@ -1,14 +1,11 @@
 package com.ziphub.Entity;
-import com.ziphub.Form.MemberForm;
-import com.ziphub.Form.TokenForm;
+import com.ziphub.Dto.MemberDto;
+import com.ziphub.Dto.TokenDto;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Builder
@@ -35,8 +32,8 @@ public class Member {
 
     private LocalDateTime createdDate;
 
-    public static MemberForm createMemberForm(Member validatedMember) {
-        MemberForm newMember = new MemberForm(
+    public static MemberDto createMemberForm(Member validatedMember) {
+        MemberDto newMember = new MemberDto(
                 validatedMember.getId(),
                 validatedMember.getEmail(),
                 validatedMember.getPhone(),
@@ -45,8 +42,8 @@ public class Member {
         return newMember;
     }
 
-    public static TokenForm createTokenForm(String token) {
-        TokenForm tokenForm = TokenForm.builder()
+    public static TokenDto createTokenForm(String token) {
+        TokenDto tokenForm = TokenDto.builder()
                 .accessTime(LocalDateTime.now())
                 .accessToken(token)
                 .tokenType("Bearer")

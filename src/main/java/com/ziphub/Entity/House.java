@@ -23,6 +23,7 @@ public class House {
 
     private int price;
     private String description;
+    private boolean hide;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL)
     private List<Photo> photos = new ArrayList<>();

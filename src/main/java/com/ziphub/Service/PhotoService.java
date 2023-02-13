@@ -41,8 +41,8 @@ public class PhotoService {
         return photos;
     }
 
-    public byte[] downloadPhotos(String houseId, String username) {
-        String uniqueId = username + "-h" + houseId;
+    public byte[] downloadPhotos(String houseId, String email) {
+        String uniqueId = email + "-h" + houseId;
         String path = String.format("%s/%s", bucketName, uniqueId);
         List<Photo> photos = photoRepository.getPhotos(path);
 
