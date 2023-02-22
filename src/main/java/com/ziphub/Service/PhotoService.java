@@ -1,5 +1,6 @@
 package com.ziphub.Service;
 
+import com.ziphub.Dto.PhotoDto;
 import com.ziphub.Entity.Photo;
 import com.ziphub.Exception.ErrorCode;
 import com.ziphub.Exception.PhotoException;

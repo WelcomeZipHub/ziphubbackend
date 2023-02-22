@@ -2,6 +2,7 @@ package com.ziphub.Service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ziphub.Dto.HouseDto;
 import com.ziphub.Entity.Embedded.Address;
 import com.ziphub.Entity.House;
 import com.ziphub.Entity.Member;
@@ -56,15 +57,26 @@ public class HouseService {
 
         String uniqueId = member.getEmail() + "-h" + houseId;
         List<Photo> photos = photoService.savePhotos(form.getPhotos(), uniqueId);
-        for (Photo p : photos) {
-            newHouse.addPhoto(p);
-        }
+        photos.stream().forEach(p -> newHouse.addPhoto(p));
 
         return houseId;
     }
 
     @Transactional
-    public void updateHouse(Long houseId) {
+    public HouseDto editHouse(Long houseId, HouseDto houseDto) {
+        House findHouse = houseRepository.findOne(houseId);
+        findHouse.setAddress(houseDto.getAddress());
+        if(houseDto.getPrice() != findHouse.getPrice()) {
+            findHouse.setPrice(houseDto.getPrice());
+        }
+        if(!houseDto.getDescription().equals(findHouse.getDescription())) {
+            findHouse.setDescription(houseDto.getDescription());
+        }
+        return houseDto;
+    }
+
+    @Transactional
+    public void updateHouseHideStatus(Long houseId) {
         House house = houseRepository.findOne(houseId);
         house.setHide(!house.isHide());
     }
