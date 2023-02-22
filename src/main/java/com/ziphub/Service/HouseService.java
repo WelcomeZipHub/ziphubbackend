@@ -2,6 +2,7 @@ package com.ziphub.Service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ziphub.Dto.HouseBasicInfoDto;
 import com.ziphub.Dto.HouseDto;
 import com.ziphub.Entity.Embedded.Address;
 import com.ziphub.Entity.House;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -31,6 +34,14 @@ public class HouseService {
     private final MemberRepository memberRepository;
     private final HouseRepository houseRepository;
     private final PhotoService photoService;
+
+    @Transactional
+    public List<HouseDto> getAllHousesWithMember(int offset, int limit) {
+        List<House> houses = houseRepository.findAllWithMember(offset, limit);
+        return houses.stream()
+                .map(HouseDto::new)
+                .collect(toList());
+    }
 
     @Transactional
     public Long addHouse(HousePhotoDto form) {
@@ -63,16 +74,17 @@ public class HouseService {
     }
 
     @Transactional
-    public HouseDto editHouse(Long houseId, HouseDto houseDto) {
+    public HouseBasicInfoDto editHouse(Long houseId, HouseBasicInfoDto houseBasicInfoDto) {
         House findHouse = houseRepository.findOne(houseId);
-        findHouse.setAddress(houseDto.getAddress());
-        if(houseDto.getPrice() != findHouse.getPrice()) {
-            findHouse.setPrice(houseDto.getPrice());
+        log.info("address INFO: {}", houseBasicInfoDto);
+        findHouse.setAddress(houseBasicInfoDto.getAddress());
+        if(houseBasicInfoDto.getPrice() != findHouse.getPrice()) {
+            findHouse.setPrice(houseBasicInfoDto.getPrice());
         }
-        if(!houseDto.getDescription().equals(findHouse.getDescription())) {
-            findHouse.setDescription(houseDto.getDescription());
+        if(!houseBasicInfoDto.getDescription().equals(findHouse.getDescription())) {
+            findHouse.setDescription(houseBasicInfoDto.getDescription());
         }
-        return houseDto;
+        return houseBasicInfoDto;
     }
 
     @Transactional
@@ -92,4 +104,5 @@ public class HouseService {
         form.setPhotos(files);
         return form;
     }
+
 }

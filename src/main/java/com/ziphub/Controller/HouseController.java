@@ -1,4 +1,5 @@
 package com.ziphub.Controller;
+import com.ziphub.Dto.HouseBasicInfoDto;
 import com.ziphub.Dto.HouseDto;
 import com.ziphub.Dto.HousePhotoDto;
 import com.ziphub.Entity.House;
@@ -27,15 +28,12 @@ public class HouseController {
 
     @GetMapping("/all")
     public ResponseEntity<Result> getAllHouses(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "limit", defaultValue = "50") int limit) {
-        List<House> houses = houseRepository.findAllWithMember(offset, limit);
-        List<HouseDto> data = houses.stream()
-                .map(HouseDto::new)
-                .collect(toList());
+        List<HouseDto> data = houseService.getAllHousesWithMember(offset, limit);
         return ResponseEntity.ok().body(new Result(data.size(), data));
     }
 
     @PostMapping(value = "/register", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addHouse(@RequestPart("files") List<MultipartFile> imageFiles, @RequestPart("house") String houseInfo) {
+    public ResponseEntity<String> addHouse(@RequestPart("imageFiles") List<MultipartFile> imageFiles, @RequestPart("house") String houseInfo) {
         HousePhotoDto form = houseService.getJson(houseInfo, imageFiles);
         Long houseId = houseService.addHouse(form);
         return ResponseEntity.ok().body("Successfully added " + String.valueOf(houseId));
@@ -48,9 +46,9 @@ public class HouseController {
     }
 
     @PutMapping("/{houseId}")
-    public ResponseEntity<HouseDto> editHouse(@RequestBody HouseDto houseReqDto, @PathVariable("houseId") Long houseId) {
-        HouseDto houseDto = houseService.editHouse(houseId, houseReqDto);
-        return ResponseEntity.ok().body(houseDto);
+    public ResponseEntity<HouseBasicInfoDto> editHouse(@RequestBody HouseBasicInfoDto houseBasicInfoDto, @PathVariable("houseId") Long houseId) {
+        HouseBasicInfoDto data = houseService.editHouse(houseId, houseBasicInfoDto);
+        return ResponseEntity.ok().body(data);
     }
 
 

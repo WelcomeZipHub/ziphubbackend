@@ -24,7 +24,6 @@ public class HouseRepository {
     public List<House> findAllWithMember(int offset, int limit) {
         return em.createQuery(
                 "select h from House h" +
-                        " join fetch h.member m" +
                         " where h.hide = false", House.class)
                 .setFirstResult(offset)
                 .setMaxResults(limit)

@@ -1,7 +1,5 @@
 package com.ziphub.Dto;
 
-
-import com.ziphub.Entity.House;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
