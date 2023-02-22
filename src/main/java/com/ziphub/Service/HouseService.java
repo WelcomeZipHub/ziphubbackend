@@ -46,19 +46,9 @@ public class HouseService {
     @Transactional
     public Long addHouse(HousePhotoDto form) {
         Member member = memberRepository.findOne(form.getMemberId());
-        Address address = new Address(
-                form.getCity(),
-                form.getStreet(),
-                form.getSuite(),
-                form.getState(),
-                form.getZipcode(),
-                form.getLongitude(),
-                form.getLatitude()
-        );
-
         House newHouse = new House();
         newHouse.setMember(member);
-        newHouse.setAddress(address);
+        newHouse.setAddress(form.getAddress());
         newHouse.setDescription(form.getDescription());
         newHouse.setPrice(form.getPrice());
         newHouse.setCreatedDate(LocalDateTime.now());
