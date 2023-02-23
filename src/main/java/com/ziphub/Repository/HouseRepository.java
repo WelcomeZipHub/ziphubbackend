@@ -21,7 +21,7 @@ public class HouseRepository {
         return newHouse.getId();
     }
 
-    public List<House> findAllWithMember(int offset, int limit) {
+    public List<House> findAll(int offset, int limit) {
         return em.createQuery(
                 "select h from House h" +
                         " where h.hide = false", House.class)

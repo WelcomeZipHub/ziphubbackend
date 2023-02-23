@@ -2,13 +2,12 @@ package com.ziphub.Service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ziphub.Dto.HouseBasicInfoDto;
-import com.ziphub.Dto.HouseDto;
-import com.ziphub.Entity.Embedded.Address;
+import com.ziphub.Dto.House.HouseEditDto;
+import com.ziphub.Dto.House.HouseGetDto;
 import com.ziphub.Entity.House;
 import com.ziphub.Entity.Member;
 import com.ziphub.Entity.Photo;
-import com.ziphub.Dto.HousePhotoDto;
+import com.ziphub.Dto.House.HouseAddDto;
 import com.ziphub.Repository.HouseRepository;
 
 import com.ziphub.Repository.MemberRepository;
@@ -36,15 +35,15 @@ public class HouseService {
     private final PhotoService photoService;
 
     @Transactional
-    public List<HouseDto> getAllHousesWithMember(int offset, int limit) {
-        List<House> houses = houseRepository.findAllWithMember(offset, limit);
+    public List<HouseGetDto> getAll(int offset, int limit) {
+        List<House> houses = houseRepository.findAll(offset, limit);
         return houses.stream()
-                .map(HouseDto::new)
+                .map(HouseGetDto::new)
                 .collect(toList());
     }
 
     @Transactional
-    public Long addHouse(HousePhotoDto form) {
+    public Long addHouse(HouseAddDto form) {
         Member member = memberRepository.findOne(form.getMemberId());
         House newHouse = new House();
         newHouse.setMember(member);
@@ -64,17 +63,17 @@ public class HouseService {
     }
 
     @Transactional
-    public HouseBasicInfoDto editHouse(Long houseId, HouseBasicInfoDto houseBasicInfoDto) {
+    public HouseEditDto editHouse(Long houseId, HouseEditDto houseEditDto) {
         House findHouse = houseRepository.findOne(houseId);
-        log.info("address INFO: {}", houseBasicInfoDto);
-        findHouse.setAddress(houseBasicInfoDto.getAddress());
-        if(houseBasicInfoDto.getPrice() != findHouse.getPrice()) {
-            findHouse.setPrice(houseBasicInfoDto.getPrice());
+        log.info("address INFO: {}", houseEditDto);
+        findHouse.setAddress(houseEditDto.getAddress());
+        if(houseEditDto.getPrice() != findHouse.getPrice()) {
+            findHouse.setPrice(houseEditDto.getPrice());
         }
-        if(!houseBasicInfoDto.getDescription().equals(findHouse.getDescription())) {
-            findHouse.setDescription(houseBasicInfoDto.getDescription());
+        if(!houseEditDto.getDescription().equals(findHouse.getDescription())) {
+            findHouse.setDescription(houseEditDto.getDescription());
         }
-        return houseBasicInfoDto;
+        return houseEditDto;
     }
 
     @Transactional
@@ -83,11 +82,11 @@ public class HouseService {
         house.setHide(!house.isHide());
     }
 
-    public HousePhotoDto getJson(String houseInfo, List<MultipartFile> files) {
-        HousePhotoDto form = new HousePhotoDto();
+    public HouseAddDto getJson(String houseInfo, List<MultipartFile> files) {
+        HouseAddDto form = new HouseAddDto();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            form = objectMapper.readValue(houseInfo, HousePhotoDto.class);
+            form = objectMapper.readValue(houseInfo, HouseAddDto.class);
         } catch (IOException e) {
             log.info("Error on ObjectMapper (at HouseService) with --> {}", e);
         }

@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziphub.Exception.ErrorCode;
 import com.ziphub.Exception.MemberException;
 import com.ziphub.Dto.LoginDto;
-import com.ziphub.Dto.MemberRegisterDto;
-import com.ziphub.Dto.TokenDto;
+import com.ziphub.Dto.Member.MemberAddDto;
+import com.ziphub.Dto.TokenGetDto;
 import com.ziphub.Service.MemberService;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -52,12 +52,12 @@ public class MemberControllerTest {
         String email = "joon@gmail.com";
         String phone = "909-703-1010";
 
-        MemberRegisterDto memberRegisterDto = new MemberRegisterDto(email, password,  phone);
+        MemberAddDto memberAddDto = new MemberAddDto(email, password,  phone);
 
         mockMvc.perform(post("/api/member/register")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(memberRegisterDto)))
+                        .content(objectMapper.writeValueAsBytes(memberAddDto)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -71,7 +71,7 @@ public class MemberControllerTest {
         String email = "joon@gmail.com";
         String phone = "909-703-1010";
 
-        MemberRegisterDto memberRegisterForm = new MemberRegisterDto(email, password,  phone);
+        MemberAddDto memberRegisterForm = new MemberAddDto(email, password,  phone);
 
         when(memberService.signUp(anyString(), anyString(), anyString())).thenThrow(new MemberException(ErrorCode.USERNAME_DUPLICATED, "Member already existed"));
 
@@ -91,7 +91,7 @@ public class MemberControllerTest {
         String password = "123456";
 
         LoginDto loginDto = new LoginDto(username, password);
-        TokenDto tokenForm = new TokenDto(LocalDateTime.now(),  "token", "Bearer");
+        TokenGetDto tokenForm = new TokenGetDto(LocalDateTime.now(),  "token", "Bearer");
 
         when(memberService.signIn(anyString(), anyString())).thenReturn(tokenForm);
 

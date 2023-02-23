@@ -1,6 +1,6 @@
 package com.ziphub.Entity;
-import com.ziphub.Dto.MemberDto;
-import com.ziphub.Dto.TokenDto;
+import com.ziphub.Dto.Member.MemberGetDto;
+import com.ziphub.Dto.TokenGetDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,8 +32,8 @@ public class Member {
 
     private LocalDateTime createdDate;
 
-    public static MemberDto createMemberForm(Member validatedMember) {
-        MemberDto newMember = new MemberDto(
+    public static MemberGetDto createMemberForm(Member validatedMember) {
+        MemberGetDto newMember = new MemberGetDto(
                 validatedMember.getId(),
                 validatedMember.getEmail(),
                 validatedMember.getPhone(),
@@ -42,8 +42,8 @@ public class Member {
         return newMember;
     }
 
-    public static TokenDto createTokenForm(String token) {
-        TokenDto tokenForm = TokenDto.builder()
+    public static TokenGetDto createTokenForm(String token) {
+        TokenGetDto tokenForm = TokenGetDto.builder()
                 .accessTime(LocalDateTime.now())
                 .accessToken(token)
                 .tokenType("Bearer")

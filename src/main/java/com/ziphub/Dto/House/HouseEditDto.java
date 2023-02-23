@@ -1,4 +1,4 @@
-package com.ziphub.Dto;
+package com.ziphub.Dto.House;
 
 import com.ziphub.Entity.Embedded.Address;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class HouseBasicInfoDto {
+public class HouseEditDto {
     private Address address;
     private int price;
     private String description;

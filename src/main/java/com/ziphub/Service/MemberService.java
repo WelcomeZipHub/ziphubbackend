@@ -3,8 +3,8 @@ package com.ziphub.Service;
 import com.ziphub.Entity.Member;
 import com.ziphub.Exception.ErrorCode;
 import com.ziphub.Exception.MemberException;
-import com.ziphub.Dto.MemberDto;
-import com.ziphub.Dto.TokenDto;
+import com.ziphub.Dto.Member.MemberGetDto;
+import com.ziphub.Dto.TokenGetDto;
 import com.ziphub.Repository.MemberRepository;
 import com.ziphub.Utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class MemberService {
     private Long expiredTimeMs;
 
     @Transactional
-    public MemberDto signUp(String email, String password, String phone) {
+    public MemberGetDto signUp(String email, String password, String phone) {
         validateMember(email);
 
         Member member = Member.builder()
@@ -44,7 +44,7 @@ public class MemberService {
         return Member.createMemberForm(validatedMember);
     }
 
-    public TokenDto signIn(String email, String password) {
+    public TokenGetDto signIn(String email, String password) {
         Member selectedMember = memberRepository.findOneByEmail(email).orElseThrow(() -> new MemberException(ErrorCode.USERNAME_NOT_FOUND, ""));
 
         if (!bcryptEncoder.matches(password, selectedMember.getPassword())) {

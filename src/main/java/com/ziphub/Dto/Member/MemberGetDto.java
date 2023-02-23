@@ -1,21 +1,18 @@
-package com.ziphub.Dto;
+package com.ziphub.Dto.Member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Builder
 @Getter
 @AllArgsConstructor
-public class TokenDto {
+public class MemberGetDto {
+    private Long id;
+    private String email;
+    private String phone;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime accessTime;
-    private String accessToken;
-    private String tokenType;
-
-
+    private LocalDateTime createdBy;
 }

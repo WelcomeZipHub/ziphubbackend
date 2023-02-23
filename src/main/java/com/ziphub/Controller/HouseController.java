@@ -1,8 +1,7 @@
 package com.ziphub.Controller;
-import com.ziphub.Dto.HouseBasicInfoDto;
-import com.ziphub.Dto.HouseDto;
-import com.ziphub.Dto.HousePhotoDto;
-import com.ziphub.Entity.House;
+import com.ziphub.Dto.House.HouseEditDto;
+import com.ziphub.Dto.House.HouseGetDto;
+import com.ziphub.Dto.House.HouseAddDto;
 import com.ziphub.Repository.HouseRepository;
 import com.ziphub.Service.HouseService;
 import lombok.AllArgsConstructor;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
-import static java.util.stream.Collectors.*;
-
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -27,14 +24,14 @@ public class HouseController {
     private final HouseRepository houseRepository;
 
     @GetMapping("/all")
-    public ResponseEntity<Result> getAllHouses(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "limit", defaultValue = "50") int limit) {
-        List<HouseDto> data = houseService.getAllHousesWithMember(offset, limit);
+    public ResponseEntity<Result> getHouses(@RequestParam(value = "offset", defaultValue = "0") int offset, @RequestParam(value = "limit", defaultValue = "50") int limit) {
+        List<HouseGetDto> data = houseService.getAll(offset, limit);
         return ResponseEntity.ok().body(new Result(data.size(), data));
     }
 
-    @PostMapping(value = "/register", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/add", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addHouse(@RequestPart("imageFiles") List<MultipartFile> imageFiles, @RequestPart("house") String houseInfo) {
-        HousePhotoDto form = houseService.getJson(houseInfo, imageFiles);
+        HouseAddDto form = houseService.getJson(houseInfo, imageFiles);
         Long houseId = houseService.addHouse(form);
         return ResponseEntity.ok().body("Successfully added " + String.valueOf(houseId));
     }
@@ -46,17 +43,16 @@ public class HouseController {
     }
 
     @PutMapping("/{houseId}")
-    public ResponseEntity<HouseBasicInfoDto> editHouse(@RequestBody HouseBasicInfoDto houseBasicInfoDto, @PathVariable("houseId") Long houseId) {
-        HouseBasicInfoDto data = houseService.editHouse(houseId, houseBasicInfoDto);
+    public ResponseEntity<HouseEditDto> editHouse(@RequestBody HouseEditDto houseEditDto, @PathVariable("houseId") Long houseId) {
+        HouseEditDto data = houseService.editHouse(houseId, houseEditDto);
         return ResponseEntity.ok().body(data);
     }
-
 
 
     @Data
     @AllArgsConstructor
     static class Result {
         private int count;
-        private List<HouseDto> data;
+        private List<HouseGetDto> data;
     }
 }

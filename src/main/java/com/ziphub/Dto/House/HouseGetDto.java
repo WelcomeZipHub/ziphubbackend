@@ -1,18 +1,17 @@
-package com.ziphub.Dto;
+package com.ziphub.Dto.House;
 
+import com.ziphub.Dto.PhotoDto;
 import com.ziphub.Entity.Embedded.Address;
 import com.ziphub.Entity.House;
-import com.ziphub.Entity.Member;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
 @Data
-public class HouseDto {
+public class HouseGetDto {
     private Long houseId;
     private Address address;
     private int price;
@@ -22,7 +21,7 @@ public class HouseDto {
     private LocalDateTime createdDate;
     private List<PhotoDto> photos;
 
-    public HouseDto(House house){
+    public HouseGetDto(House house){
         houseId = house.getId();
         address = house.getAddress();
         price = house.getPrice();
